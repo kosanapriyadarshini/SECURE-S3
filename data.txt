@@ -1,0 +1,2 @@
+This is a sample confidential file.
+This data will be encrypted before uploading to cloud storage.
