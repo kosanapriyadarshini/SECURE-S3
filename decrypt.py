@@ -1,24 +1,35 @@
-from cryptography.fernet import Fernet
-import os
+from flask import send_file
+import time
 
-# Path of encrypted file
-encrypted_path = os.path.join("storage", "encrypted.enc")
+@app.route('/decrypt', methods=['POST'])
+def decrypt():
 
-# Read secret key
-with open("secret.key", "rb") as f:
-    key = f.read()
+    password = request.form.get('password')
 
-cipher = Fernet(key)
+    sensitive_flag = open(os.path.join(STORAGE, "sensitive.txt")).read()
 
-# Read encrypted data
-with open(encrypted_path, "rb") as f:
-    encrypted_data = f.read()
+    if sensitive_flag == "yes":
+        if password != "1234":
+            return "❌ Access Denied! Wrong Password"
 
-# Decrypt data
-decrypted_data = cipher.decrypt(encrypted_data)
+    key = open(os.path.join(STORAGE, "secret.key"), "rb").read()
+    cipher = Fernet(key)
 
-# Save decrypted file
-with open("original_file", "wb") as f:
-    f.write(decrypted_data)
+    encrypted_path = os.path.join(STORAGE, "encrypted.enc")
 
-print("File decrypted successfully. Check 'original_file'")
+    with open(encrypted_path, "rb") as f:
+        encrypted = f.read()
+
+    decrypted = cipher.decrypt(encrypted)
+
+    filename = open(os.path.join(STORAGE, "filename.txt")).read()
+
+    # 🔥 IMPORTANT FIX: absolute path + proper name
+    output_file = os.path.abspath(os.path.join(STORAGE, "decrypted_" + filename))
+
+    with open(output_file, "wb") as f:
+        f.write(decrypted)
+
+    time.sleep(1)   # ensure file is written
+
+    return send_file(output_file, as_attachment=True)

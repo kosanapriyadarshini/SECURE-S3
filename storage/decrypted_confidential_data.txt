@@ -1,0 +1,19 @@
+CONFIDENTIAL – DO NOT SHARE
+
+Employee Name: Rahul Sharma
+Employee ID: EMP10245
+Department: Finance
+
+Bank Account Number: 458712349876
+IFSC Code: HDFC0001234
+PAN Number: ABCDE1234F
+
+Monthly Salary: ₹85,000
+
+Login Credentials:
+Username: rahul.sharma
+Password: Rahul@123
+
+-------------------------------------
+This file contains sensitive personal and financial data.
+Unauthorized access is strictly prohibited.
